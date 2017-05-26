@@ -43,14 +43,15 @@ $app->container->singleton('storage', function() use ($app) {
     // If the SLIM_MODE environment variable is set to 'production' (like on Heroku) the APC is used as 
     // the storage backed. Otherwise (like running locally) the filesystem is used as the storage 
     // backend.
-    $storage = null;
-    $mode = $app->config('mode');
-    if ($mode === 'production') {
-        $storage = new APCStorage();
-    } else {
-        $storage = new FileStorage('storage');
-    }
-    return $storage;
+    // $storage = null;
+    // $mode = $app->config('mode');
+    // if ($mode === 'production') {
+    //     $storage = new APCStorage();
+    // } else {
+    //     $storage = new FileStorage('storage');
+    // }
+    // return $storage;
+    return new APCStorage();
 });
 
 // Initialize OpenTok instance, store it in the app contianer
