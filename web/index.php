@@ -31,7 +31,7 @@ $app = new Slim(array(
     'templates.path' => __DIR__.'/../templates'
 ));
 
-// IMPORTANT: storage is a variable that associates room names with unique unique sesssion IDs. 
+// IMPORTANT: storage is a variable that associates room names with unique unique sesssion IDs.
 // For simplicty, we use a extension called FileStorage to implement this logic.
 // Generally speaking, a production application chooses a database system like MySQL, MongoDB, or Redis etc.
 // The FileStorage transforms into a file where the name is a room name and its value is session ID.
@@ -54,7 +54,7 @@ $app->get('/', 'cors', function () use ($app) {
 /**
  * GET /session redirects to /room/session
  */
-$app->get('/session', 'cors', function () use ($app) { 
+$app->get('/session', 'cors', function () use ($app) {
     $app->redirect('/room/session');
 });
 
@@ -62,6 +62,11 @@ $app->get('/session', 'cors', function () use ($app) {
  * GET /room/:name
  */
 $app->get('/room/:name', 'cors', function($name) use ($app) {
+    // Modifying this backend for the opentok-web-samples
+    // It just returns a new sessionId based on the public IP Address of the person
+    // requesting the sessionId. This way people can still test the app locally but they
+    // don't end up seeing one another if they're on different networks.
+    $name = $app->request->getIp();
 
     // if a room name is already associated with a session ID
     if ($app->storage->exists($name)) {
@@ -87,7 +92,7 @@ $app->get('/room/:name', 'cors', function($name) use ($app) {
 
         // store the sessionId into local
         $app->storage[$name] = $session->getSessionId();
-        
+
         // generate token
         $token = $app->opentok->generateToken($session->getSessionId());
         $responseData = array(
