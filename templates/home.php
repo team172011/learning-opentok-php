@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Learning OpenTok PHP</title>
+    <title>Surrogate Video-Chat Server</title>
+	<p>Minimaler Server zum managen und verwalten von Video-Chat Anrufen</p>
 </head>
 
 <style>
